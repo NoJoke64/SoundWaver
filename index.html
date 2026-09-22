@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SoundWaver</title>
+<link rel="icon" href="data:," />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="visualizer" aria-label="Audio Visualisierung"></canvas>
+
+    <header id="topbar">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <h1>SoundWaver</h1>
+      </div>
+      <div id="status" class="status">bereit</div>
+    </header>
+
+    <main id="startScreen" class="overlay">
+      <div class="panel start-panel">
+        <h2>Willkommen bei SoundWaver</h2>
+        <p>Nimm Sound auf und erzeuge live kreative, farbenfrohe Animationen aus deiner Audiowellenform. Erstelle danach ein Durchschnittsbild oder exportiere die ganze Animation als Video.</p>
+        <button id="startBtn" class="primary-btn">🎙️ Mikrofon starten</button>
+        <p id="startError" class="error-text"></p>
+      </div>
+    </main>
+
+    <aside id="controls" class="panel controls hidden">
+      <div class="controls-scroll">
+
+        <section class="control-group">
+          <h3>Animationsstil</h3>
+          <select id="styleSelect"></select>
+        </section>
+
+        <section class="control-group">
+          <h3>Farben</h3>
+          <div class="row">
+            <label for="colorMode">Farbmodus</label>
+            <select id="colorMode">
+              <option value="solid">Einfarbig</option>
+              <option value="gradient">Verlauf</option>
+              <option value="rainbow">Regenbogen (reaktiv)</option>
+            </select>
+          </div>
+          <div class="row" id="color1Row">
+            <label for="color1">Farbe 1</label>
+            <input type="color" id="color1" value="#5ef1c7" />
+          </div>
+          <div class="row" id="color2Row">
+            <label for="color2">Farbe 2</label>
+            <input type="color" id="color2" value="#7b6cff" />
+          </div>
+          <div class="row">
+            <label for="bgColor">Hintergrund</label>
+            <input type="color" id="bgColor" value="#0a0a12" />
+          </div>
+          <div class="row">
+            <label for="bgTransparent">Transparenter Hintergrund</label>
+            <input type="checkbox" id="bgTransparent" />
+          </div>
+          <div class="row">
+            <label for="glow">Glow-Intensität</label>
+            <input type="range" id="glow" min="0" max="40" value="12" />
+          </div>
+          <div class="row">
+            <label for="sensitivity">Empfindlichkeit</label>
+            <input type="range" id="sensitivity" min="0.2" max="3" step="0.1" value="1.2" />
+          </div>
+        </section>
+
+        <section class="control-group">
+          <h3>Export</h3>
+          <button id="snapshotAvgBtn" class="secondary-btn">🖼️ Durchschnittsbild erzeugen</button>
+          <button id="recordBtn" class="secondary-btn">⏺️ Video-Aufnahme starten</button>
+          <p class="hint">Das Durchschnittsbild und die Live-Animation verwenden denselben visuellen Stil.</p>
+        </section>
+
+        <section class="control-group">
+          <button id="stopBtn" class="danger-btn">⏹️ Aufnahme beenden</button>
+        </section>
+
+      </div>
+    </aside>
+
+    <div id="toggleControlsBtn" class="toggle-controls hidden" title="Einstellungen ein/ausblenden">⚙️</div>
+
+    <div id="resultOverlay" class="overlay hidden">
+      <div class="panel result-panel">
+        <h2 id="resultTitle">Ergebnis</h2>
+        <div id="resultMedia"></div>
+        <div class="result-actions">
+          <a id="downloadLink" class="primary-btn" download>⬇️ Herunterladen</a>
+          <button id="closeResultBtn" class="secondary-btn">Schließen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
