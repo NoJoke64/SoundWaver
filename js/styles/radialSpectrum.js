@@ -7,13 +7,15 @@ export const engine = "2d";
 export function create(canvas) {
   const ctx = canvas.getContext("2d");
 
-  function paintBackground(w, h, colors) {
+  function paintBackground(w, h, colors, trail) {
     if (colors.transparent) {
       ctx.clearRect(0, 0, w, h);
-    } else {
-      ctx.fillStyle = colors.bg;
-      ctx.fillRect(0, 0, w, h);
+      return;
     }
+    ctx.globalAlpha = trail;
+    ctx.fillStyle = colors.bg;
+    ctx.fillRect(0, 0, w, h);
+    ctx.globalAlpha = 1;
   }
 
   function drawRing(w, h, freq, colors, timeSec, radiusScale, alphaMul, rotationSpeed) {
@@ -21,7 +23,7 @@ export function create(canvas) {
     const cy = h / 2;
     const baseR = Math.min(w, h) * 0.16 * radiusScale;
     const maxLen = Math.min(w, h) * 0.32 * colors.sensitivity;
-    const n = freq.length;
+    const n = 128;
     const rotation = timeSec * rotationSpeed;
 
     ctx.save();
@@ -33,7 +35,8 @@ export function create(canvas) {
 
     for (let i = 0; i < n; i++) {
       const angle = (i / n) * Math.PI * 2;
-      const mag = freq[i];
+      const freqIdx = Math.floor((i / n) * freq.length);
+      const mag = freq[freqIdx];
       const len = baseR + mag * maxLen;
       const x1 = Math.cos(angle) * baseR;
       const y1 = Math.sin(angle) * baseR;
@@ -61,12 +64,12 @@ export function create(canvas) {
     resize() {},
     render(frame) {
       const { width: w, height: h, freq, colors, time } = frame;
-      paintBackground(w, h, colors);
+      paintBackground(w, h, colors, 0.18);
       drawRing(w, h, freq, colors, time, 1, 1, 0.15);
     },
     renderAverage(frame) {
       const { width: w, height: h, freq, colors } = frame;
-      paintBackground(w, h, colors);
+      paintBackground(w, h, colors, 1);
       for (let layer = 2; layer >= 0; layer--) {
         drawRing(w, h, freq, colors, layer * 1.1, 1 + layer * 0.35, layer === 0 ? 1 : 0.4, layer * 0.4);
       }

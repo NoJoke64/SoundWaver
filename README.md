@@ -18,11 +18,12 @@ Dann `http://localhost:8080` öffnen und Mikrofonzugriff erlauben.
 ## Features
 
 - **5 Animationsstile**, alle live und für das Durchschnittsbild im selben Look:
-  - 🌊 Wellenlinie – klassische, verlaufende Audiowellenform
+  - 🌊 Wellenlinie – vertikale Frequenz-Wellenform: die Y-Achse repräsentiert die Wellenlänge (tiefe Töne unten, hohe oben), die horizontale Auslenkung die Lautstärke pro Frequenzband
   - ☀️ Radial-Spektrum – rotierendes Frequenzspektrum um einen glühenden Kern
   - ✨ Partikelschwarm – Partikel, die auf Lautstärke & Frequenzen reagieren
   - 🫧 Organischer Blob – weich pulsierende, organische Form
-  - 🌌 Galaxy (3D) – WebGL/Three.js-Galaxie, die auf Sound reagiert
+  - 🔮 Kaleidoskop – rotierendes, gespiegeltes Mandala aus dem Frequenzspektrum
+- Alle Stile (außer dem Blob) verwenden einen sanften Motion-Trail statt hartem Clear pro Frame, für ein flüssigeres, moderneres Bild.
 - **Farb-Customization**: Einfarbig, Verlauf oder reaktiver Regenbogen-Modus, freie Hintergrundfarbe oder transparenter Hintergrund (für Export mit Alphakanal), Glow-Intensität und Empfindlichkeit einstellbar.
 - **Export**:
   - Durchschnittsbild (PNG, inkl. Transparenz) aus dem Mittel der Wellenformen der laufenden Session
@@ -44,4 +45,4 @@ js/main.js             UI-Wiring & Render-Loop
 
 ## Neue Animationsstile hinzufügen
 
-Jeder Stil in `js/styles/` exportiert `id`, `label`, `engine` (`"2d"` oder `"webgl"`) und eine `create(canvas)`-Funktion, die ein Objekt mit `render(frame)`, `renderAverage(frame)`, `resize(w, h)` und `destroy()` zurückgibt. Einfach in `js/styles/index.js` eintragen.
+Jeder Stil in `js/styles/` exportiert `id`, `label`, `engine` (aktuell nur `"2d"`) und eine `create(canvas)`-Funktion, die ein Objekt mit `render(frame)`, `renderAverage(frame)`, `resize(w, h)` und `destroy()` zurückgibt. Einfach in `js/styles/index.js` eintragen.

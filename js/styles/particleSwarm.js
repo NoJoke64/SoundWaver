@@ -23,14 +23,15 @@ export function create(canvas) {
   }
   initParticles();
 
-  function paintBackground(colors) {
+  function paintBackground(colors, trail) {
     if (colors.transparent) {
       ctx.clearRect(0, 0, w, h);
-    } else {
-      ctx.fillStyle = colors.bg;
-      ctx.globalAlpha = 1;
-      ctx.fillRect(0, 0, w, h);
+      return;
     }
+    ctx.fillStyle = colors.bg;
+    ctx.globalAlpha = trail;
+    ctx.fillRect(0, 0, w, h);
+    ctx.globalAlpha = 1;
   }
 
   function drawSwarm(freq, volume, colors, timeSec, alphaMul, spreadMul) {
@@ -69,13 +70,13 @@ export function create(canvas) {
     render(frame) {
       w = frame.width;
       h = frame.height;
-      paintBackground(frame.colors);
+      paintBackground(frame.colors, 0.2);
       drawSwarm(frame.freq, frame.volume, frame.colors, frame.time, 1, 1);
     },
     renderAverage(frame) {
       w = frame.width;
       h = frame.height;
-      paintBackground(frame.colors);
+      paintBackground(frame.colors, 1);
       for (let layer = 2; layer >= 0; layer--) {
         drawSwarm(frame.freq, frame.volume, frame.colors, layer * 2.1, layer === 0 ? 1 : 0.45, 1 + layer * 0.25);
       }
