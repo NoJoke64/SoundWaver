@@ -28,7 +28,7 @@ export function create(canvas) {
     for (let i = 0; i < BINS_PER_WEDGE; i++) {
       const t = i / (BINS_PER_WEDGE - 1);
       const angle = t * wedgeAngle;
-      const freqIdx = Math.floor(t * (freq.length - 1));
+      const freqIdx = Math.floor(Math.pow(t, 2.3) * (freq.length - 1));
       const mag = freq[freqIdx];
       const r = radius * 0.1 + mag * radius * 0.9;
       const x = Math.cos(angle) * r;
@@ -44,7 +44,7 @@ export function create(canvas) {
     for (let i = 0; i < BINS_PER_WEDGE; i++) {
       const t = i / (BINS_PER_WEDGE - 1);
       const angle = t * wedgeAngle;
-      const freqIdx = Math.floor(t * (freq.length - 1));
+      const freqIdx = Math.floor(Math.pow(t, 2.3) * (freq.length - 1));
       const mag = freq[freqIdx];
       const r = radius * 0.1 + mag * radius * 0.9;
       const x = Math.cos(angle) * r;

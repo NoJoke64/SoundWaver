@@ -18,11 +18,17 @@ function smooth(arr, passes = 1) {
   return out;
 }
 
-function sampleBins(freq, n) {
+// Real audio energy concentrates in the lowest ~20% of linear FFT bins,
+// so a plain linear sweep leaves most of the range visually silent.
+// A power curve spreads the bass/mid content over more of the axis and
+// compresses the (usually quiet) highs instead of giving them equal space.
+function sampleBins(freq, n, exponent = 2.3) {
   const out = new Array(n);
-  const step = freq.length / n;
+  const maxIdx = freq.length - 1;
   for (let i = 0; i < n; i++) {
-    out[i] = freq[Math.min(freq.length - 1, Math.floor(i * step))];
+    const t = i / (n - 1);
+    const idx = Math.floor(Math.pow(t, exponent) * maxIdx);
+    out[i] = freq[idx];
   }
   return out;
 }

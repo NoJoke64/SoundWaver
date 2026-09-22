@@ -34,8 +34,9 @@ export function create(canvas) {
     ctx.globalAlpha = alphaMul;
 
     for (let i = 0; i < n; i++) {
-      const angle = (i / n) * Math.PI * 2;
-      const freqIdx = Math.floor((i / n) * freq.length);
+      const t = i / n;
+      const angle = t * Math.PI * 2;
+      const freqIdx = Math.floor(Math.pow(t, 2.3) * (freq.length - 1));
       const mag = freq[freqIdx];
       const len = baseR + mag * maxLen;
       const x1 = Math.cos(angle) * baseR;
