@@ -45,20 +45,23 @@ export function create(canvas) {
   function drawRibbon(w, h, freq, colors, timeSec, opts) {
     const { alphaMul = 1, ampMul = 1, wobble = true, widthMul = 1 } = opts;
     const cx = w / 2;
-    const maxDev = (w / 2.5) * colors.sensitivity * ampMul;
+    const maxDev = (w / 6.5) * colors.sensitivity * ampMul;
     const margin = h * 0.04;
     const usableH = h - margin * 2;
 
     const raw = sampleBins(freq, BINS);
-    const mags = smooth(raw, 2);
+    const smoothed = smooth(raw, 1);
+    // contrast curve: push quiet bands down and let loud bands stand out,
+    // so neighbouring wavelengths read as visibly different in strength
+    const mags = smoothed.map((m) => Math.pow(m, 1.7));
 
     const left = [];
     const right = [];
     for (let i = 0; i < BINS; i++) {
       const t = i / (BINS - 1);
       const y = h - margin - t * usableH;
-      const wob = wobble ? Math.sin(timeSec * 1.6 + i * 0.35) * 3 : 0;
-      const dev = Math.max(2, mags[i] * maxDev + wob);
+      const wob = wobble ? Math.sin(timeSec * 1.6 + i * 0.35) * 2 : 0;
+      const dev = Math.max(1.5, mags[i] * maxDev + wob);
       left.push({ x: cx - dev, y });
       right.push({ x: cx + dev, y });
     }
